@@ -20,61 +20,32 @@ public:
             {
                 std::cout << board[i][j] << "";
             }
-            std::cout << std::endl;
+            std::cout << "\n";
         }
+    }
+
+    void updateBoard(int8_t x, int8_t y) {
+        printToConsole();
     }
 };
 
 boardConstructor GameBoard;
 
-//void renderNewFrame(std::string a);
 void chooseWhichOption();
 
 void chooseWhichOption() {
     std::string chosenSquare;
+    int8_t chosenX;
+    int8_t chosenY;
     std::cout << "What square do you want to pick";
+    std::cout << "X axis";
+    std::cin >> chosenX;
+    std::cout << "Y axis";
+    std::cin >> chosenY;
     std::cin >> chosenSquare;
-    //chosenSquare = tolower(chosenSquare);
-    //renderNewFrame(chosenSquare);
+    GameBoard.updateBoard(chosenX, chosenY);
 }
 
-/*
-void renderNewFrame(std::string a) {
-    char b = a[0];
-    if (b == "a") {
-    }
-    switch (a) {
-    case "a1":
-        GameBoard.board[0][0] = "x";
-        break;
-    case "a2":
-        GameBoard.board[0][1] = "x";
-        break;
-    case "a3":
-        GameBoard.board[0][2] = "x";
-        break;
-    case "b1":
-        GameBoard.board[1][0] = "x";
-        break;
-    case "b2":
-        GameBoard.board[1][1] = "x";
-        break;
-    case "b3":
-        GameBoard.board[1][2] = "x";
-        break;
-    case "c1":
-        GameBoard.board[2][0] = "x";
-        break;
-    case "c2":
-        GameBoard.board[2][1] = "x";
-        break;
-    case "c3":
-        GameBoard.board[2][2] = "x";
-        break;
-    }
-    GameBoard.printToConsole();
-}
-*/
 
 int main() {
     GameBoard.printToConsole();
