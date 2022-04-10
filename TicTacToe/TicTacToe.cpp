@@ -1,5 +1,7 @@
 #include<iostream>
 
+int8_t whichPlayer = 1;
+
 enum Symbol{
 	EMPTY = 0,
 	CIRCLE,
@@ -13,65 +15,100 @@ enum Result{
 	TIE
 };
 
-struct Position {
-	int x, y;
+Symbol grid[3][3]{
+	{Symbol::EMPTY, Symbol::EMPTY, Symbol::EMPTY},
+	{Symbol::EMPTY, Symbol::EMPTY, Symbol::EMPTY},
+	{Symbol::EMPTY, Symbol::EMPTY, Symbol::EMPTY}
 };
 
-Symbol grid[3][3]{};
+Result move(int x, int y, Symbol symbol);
+void print();
+void getInput();
+void orderOfFunctions();
 
 Result move(int x, int y, Symbol symbol) {
-	int numOfEmptySquares = 0;
+	
 	if (x < 3 && x >= 0 && y < 3 && y >= 0) {
-		if (grid[y][x] != EMPTY) {
-			return Result::WRONG;
-		} else
+		if (grid[y][x] != EMPTY) return Result::WRONG;
+
+		grid[y][x] = symbol;
+
+		for (int i = 0; i < 3; i++)
+			if (grid[i][0] == grid[i][1] && grid[i][0] == grid[i][2]) return Result::WON;
+
+		for (int i = 0; i < 3; i++)
+			if (grid[0][i] == grid[1][i] && grid[i][0] == grid[2][i]) return Result::WON;
+
+		if ((grid[0][0] == grid[1][1] && grid[0][0] == grid[2][2]) ||
+		 	(grid[2][0] == grid[1][1] && grid[2][0] == grid[0][2])) return Result::WON;
+
+		for (int i = 0; i < 3; i++)
+			for (int j = 0; j < 3; j++)
+				if (grid[i][j] != Symbol::EMPTY) return Result::LEGIT;
 		
-			for (int i = 0; i < 3; i++) {
-				for (int j = 0; j < 3; j++) {
-					if (grid[i][j] == Symbol::EMPTY) {
-						numOfEmptySquares++;
-					}
-				}
-			}
+		return Result::TIE;
+	} 
+	else return Result::WRONG;
+}
 
-		if (numOfEmptySquares == 0) {
-			return Result::TIE;
+void print() {
+	std::cout << " 0 1 2 \n" << "-------\n";
+	for (int i = 0; i < 3; i++) {
+		for (int j = 0; j < 3; j++) {
+			if (grid[i][j] == Symbol::CIRCLE) std::cout << 'O';
+			else if (grid[i][j] == Symbol::CROSS) std::cout << 'X';
+			else if (grid[i][j] == Symbol::EMPTY) std::cout << ' ';
 		}
-
-		if (grid[0][0] == CIRCLE || grid[0][0] == CROSS && grid[0][1] == CIRCLE)
-
-		return Result::LEGIT;
+		std::cout << "\n";
 	}
-	else {
-		return Result::WRONG;
+	getInput();
+	/*std::cout << " 0 1 2 \n" <<"-------\n" ;
+	for (int i = 0; i < 3; i++) 
+		std::cout << i << "|" << grid[i][0] << "|" << grid[i][1] << "|" << grid[i][2] << "|"
+			<< "-------\n";*/
+}
+
+void getInput() {
+	int xAxis;
+	int yAxis;
+
+	std::cout << "What x axis do you choose";
+	std::cin >> xAxis;
+	std::cout << "What y axis do you choose";
+	std::cin >> yAxis;
+
+	switch (whichPlayer) {
+	case 1:
+		move(xAxis, yAxis, Symbol::CROSS);
+		whichPlayer = 2;
+		break;
+	case 2:
+		move(xAxis, yAxis, Symbol::CIRCLE);
+		whichPlayer = 1;
+		break;
 	}
 }
 
+void orderOfFunctions() {
+	getInput();
+	print();
+}
+
 int main() {
-
-	
-
-
+	orderOfFunctions();
 	return 0;
 }
 
 /*
-we could just make a table of them and check for every case
-like you have the position of the last move and you check if the move is present 
-it is always present in the table
-in the configuration where its found present we check the configuration with the grid 
-alright so
-how do we represent a configuration???
-i dont know
-you have already an algorithm you are copying?
-no i was finishing the thing that checks for a tie
+will will print 2 for CROSS and 1 for CIRCLE
+we need to print X and O
+this is why we might have needed to do a for inside a for so only one grid[][] to care about
+lets do that
 
-sry i gtg its getting late where i live.
-bye
-bye we can see it tomorrow
-yeah ok
-bye
-bye
+
+ok
+
+
     0   1   2          0   1   2           0   1   2
   -------------      -------------       -------------   
 0 | X | X | X |      |   |   |   |       |   |   |   |
