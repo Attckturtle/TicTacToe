@@ -21,7 +21,7 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{1d1da82d-416a-44a3-9ff1-9a1b398cda9e}</ProjectGuid>
+    <ProjectGuid>{4a7e791c-0df4-404c-a4ff-2aa079594ef0}</ProjectGuid>
     <RootNamespace>TicTacToe</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
