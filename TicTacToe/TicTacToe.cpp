@@ -34,10 +34,8 @@ Result move(int x, int y, Symbol symbol) {
 		grid[y][x] = symbol;
 
 		for (int i = 0; i < 3; i++)
-			if (grid[i][0] == grid[i][1] && grid[i][0] == grid[i][2]) return Result::WON;
-
-		for (int i = 0; i < 3; i++)
-			if (grid[0][i] == grid[1][i] && grid[i][0] == grid[2][i]) return Result::WON;
+			if ((grid[i][0] == grid[i][1] && grid[i][0] == grid[i][2]) || 
+			    (grid[0][i] == grid[1][i] && grid[i][0] == grid[2][i])) return Result::WON;
 
 		if ((grid[0][0] == grid[1][1] && grid[0][0] == grid[2][2]) ||
 		 	(grid[2][0] == grid[1][1] && grid[2][0] == grid[0][2])) return Result::WON;
@@ -52,16 +50,23 @@ Result move(int x, int y, Symbol symbol) {
 }
 
 void print() {
-	std::cout << " 0 1 2 \n" << "-------\n";
+	std::cout << "  0 1 2 \n" << " -------\n";
 	for (int i = 0; i < 3; i++) {
+		if (i == 0) {
+			std::cout << "0" << "|";
+		}
+		else {
+			std::cout << i << "|";
+		}
 		for (int j = 0; j < 3; j++) {
-			if (grid[i][j] == Symbol::CIRCLE) std::cout << 'O';
-			else if (grid[i][j] == Symbol::CROSS) std::cout << 'X';
-			else if (grid[i][j] == Symbol::EMPTY) std::cout << ' ';
+			if (grid[i][j] == Symbol::CIRCLE) std::cout << 'O' << "|";
+			else if (grid[i][j] == Symbol::CROSS) std::cout << 'X' << "|";
+			else if (grid[i][j] == Symbol::EMPTY) std::cout << '1' << "|";
 		}
 		std::cout << "\n";
 	}
-	getInput();
+	std::cout << " -------\n";
+	orderOfFunctions();
 	/*std::cout << " 0 1 2 \n" <<"-------\n" ;
 	for (int i = 0; i < 3; i++) 
 		std::cout << i << "|" << grid[i][0] << "|" << grid[i][1] << "|" << grid[i][2] << "|"
@@ -77,13 +82,16 @@ void getInput() {
 	std::cout << "What y axis do you choose";
 	std::cin >> yAxis;
 
+	Result winner;
+	int a;
+	int b;
 	switch (whichPlayer) {
 	case 1:
-		move(xAxis, yAxis, Symbol::CROSS);
+		a = move(xAxis, yAxis, Symbol::CROSS);
 		whichPlayer = 2;
 		break;
 	case 2:
-		move(xAxis, yAxis, Symbol::CIRCLE);
+		b = move(xAxis, yAxis, Symbol::CIRCLE);
 		whichPlayer = 1;
 		break;
 	}
